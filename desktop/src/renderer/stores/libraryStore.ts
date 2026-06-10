@@ -9,6 +9,8 @@ type LibraryState = {
   load: () => Promise<void>;
   toggleTheme: () => void;
   addSampleData: () => Promise<void>;
+  updateBook: (book: Book) => Promise<void>;
+  deleteBook: (id: number) => Promise<void>;
 };
 
 export const useLibraryStore = create<LibraryState>((set, get) => ({
@@ -26,9 +28,17 @@ export const useLibraryStore = create<LibraryState>((set, get) => ({
     set({ theme });
   },
   async addSampleData() {
-    await window.readingApi.createBook({ title: '人类群星闪耀时', author: '斯蒂芬·茨威格', publisher: '生活读书新知三联书店', isbn: '9787108062437', tags: ['文学/传记'], status: 'reading', progress: 42 });
+    await window.readingApi.createBook({ title: '人类群星闪耀时', author: '斯蒂芬·茨威格', publisher: '生活读书新知三联书店', isbn: '9787108062437', tags: ['文学/传记'], status: 'reading', progress: 42, plannedEndDate: '2026-06-20' });
     await window.readingApi.saveNote({ bookId: 1, title: '历史片段笔记', markdown: '## 摘要\n命运常在短时间内压缩成决定性瞬间。', tags: ['历史'] });
     await window.readingApi.createHighlight({ bookId: 1, page: 32, quote: '一个真正具有世界历史意义的时刻。', annotation: '可作为开篇摘录。' });
+    await get().load();
+  },
+  async updateBook(book) {
+    await window.readingApi.updateBook(book);
+    await get().load();
+  },
+  async deleteBook(id) {
+    await window.readingApi.deleteBook(id);
     await get().load();
   },
 }));
