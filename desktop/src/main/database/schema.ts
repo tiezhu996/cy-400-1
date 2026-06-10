@@ -1,0 +1,29 @@
+export const schemaSql = `
+CREATE TABLE IF NOT EXISTS books (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  author TEXT NOT NULL,
+  publisher TEXT,
+  isbn TEXT,
+  cover TEXT,
+  tags TEXT NOT NULL DEFAULT '[]',
+  status TEXT NOT NULL DEFAULT 'want',
+  progress INTEGER NOT NULL DEFAULT 0,
+  reading_minutes INTEGER NOT NULL DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS notes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  book_id INTEGER NOT NULL,
+  title TEXT NOT NULL,
+  markdown TEXT NOT NULL,
+  tags TEXT NOT NULL DEFAULT '[]',
+  updated_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS highlights (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  book_id INTEGER NOT NULL,
+  page INTEGER,
+  quote TEXT NOT NULL,
+  annotation TEXT
+);
+`;
